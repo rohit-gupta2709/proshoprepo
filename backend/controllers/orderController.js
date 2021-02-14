@@ -1,5 +1,5 @@
-import asyncHandler from 'express-async-handler'
-import Order from '../models/orderModel.js'
+const asyncHandler = require('express-async-handler')
+const Order = require('../models/orderModel.js')
 
 // @desc    Create new order
 // @route   POST /api/orders
@@ -80,11 +80,29 @@ const updateOrderToPaid = asyncHandler(async (req, res) => {
 })
 
 const getMyOrders = asyncHandler(async (req, res) => {
-  console.log('yha hun')
-  console.log(req.user)
   const orders = await Order.find({ user: req.user._id })
-    console.log(orders)
     res.json(orders)
 })
 
-export { addOrderItems, getOrderById, updateOrderToPaid, getMyOrders}
+const getOrders = asyncHandler(async (req, res) => {
+  const orders = await Order.find({}).populate('user', 'id name')
+    res.json(orders)
+})
+
+const updateOrderToDelivered = asyncHandler(async (req, res) => {
+  const order = await Order.findById(req.params.id)
+
+  if (order) {
+    order.isDelivered = true
+    order.deliveredAt = Date.now()
+
+    const updatedOrder = await order.save()
+
+    res.json(updatedOrder)
+  } else {
+    res.status(404)
+    throw new Error('Order not found')
+  }
+})
+
+module.exports = {updateOrderToDelivered, getOrders, addOrderItems, getOrderById, updateOrderToPaid, getMyOrders}
