@@ -5,10 +5,11 @@ import { useDispatch, useSelector } from 'react-redux'
 import Message from '../components/Message'
 import CheckoutSteps from '../components/CheckoutSteps'
 import { createOrder } from '../actions/orderActions'
+import { ORDER_CREATE_RESET } from '../constants/orderConstants'
 
 const PlaceOrderScreen = ({ history }) => {
   const dispatch = useDispatch()
-
+  console.log('place order')
   const cart = useSelector((state) => state.cart)
 
   //   Calculate prices
@@ -30,8 +31,11 @@ const PlaceOrderScreen = ({ history }) => {
   const orderCreate = useSelector((state) => state.orderCreate)
   const { order, success, error } = orderCreate
 
+  console.log(orderCreate)
+
   useEffect(() => {
     if (success) {
+      dispatch({type: ORDER_CREATE_RESET})
       history.push(`/order/${order._id}`)
     }
     // eslint-disable-next-line

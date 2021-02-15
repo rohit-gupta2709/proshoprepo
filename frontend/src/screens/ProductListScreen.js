@@ -6,12 +6,15 @@ import Message from '../components/Message'
 import Loader from '../components/Loader'
 import { listProducts, deleteProduct, createProduct } from '../actions/productActions'
 import { PRODUCT_CREATE_RESET } from '../constants/productConstants'
+import Paginate from '../components/Paginate'
 
-const ProductListScreen = ({history}) => {
+const ProductListScreen = ({history, match}) => {
     const dispatch = useDispatch()
 
+    const pageNumber = match.params.pageNumber || 1
+
     const productList = useSelector(state => state.productList)
-    const { loading, error, products } = productList
+    const { loading, error, products, pages, page } = productList
 
     const userLogin = useSelector(state => state.userLogin)
     const { userInfo } = userLogin
@@ -26,7 +29,7 @@ const ProductListScreen = ({history}) => {
         dispatch({ type: PRODUCT_CREATE_RESET })
         console.log('here in use effect')
         if (userInfo && userInfo.isAdmin) {
-            dispatch(listProducts())            
+            dispatch(listProducts('', pageNumber))            
         } else {
             history.push('/login')
         }
@@ -34,7 +37,7 @@ const ProductListScreen = ({history}) => {
         if (successCreate) {
             history.push(`/admin/product/${createdProduct._id}/edit`)
         }
-    }, [dispatch, history, userInfo,successCreate,createdProduct,successDelete])
+    }, [dispatch, history, userInfo,successCreate, pageNumber, createdProduct,successDelete])
 
     const deleteHandler = (id) => {
         // console.log('delete user')
@@ -99,9 +102,12 @@ const ProductListScreen = ({history}) => {
                         ))}
                     </tbody>
                 </Table>
+                
+                    < Paginate pages={pages} page={page} isAdmin={true} />
+                
                 </>
-            )
-        }
+            )    
+        }            
         </>
     )
 }

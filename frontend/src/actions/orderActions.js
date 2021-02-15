@@ -68,12 +68,8 @@ export const getOrderDetails = (id) => async (dispatch, getState) => {
       },
     }
 
-    console.log('yhn bhi get ho rha hai 1')
-
     const { data } = await axios.get(`/api/orders/${id}`, config)
-
-    console.log('yhn bhi get ho rha hai 2')
-
+    
     dispatch({
       type: ORDER_DETAILS_SUCCESS,
       payload: data,
@@ -144,7 +140,6 @@ export const listMyOrders = () => async (dispatch,getState) => {
       },
     }
 
-    console.log('in orderAction')
     const { data } = await axios.get('/api/orders/myorders', config)
 
     dispatch({

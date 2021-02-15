@@ -50,8 +50,8 @@ const OrderListScreen = ({history}) => {
                                 <td>{order.user.name}</td>
                                 <td>{order.paymentMethod}</td>
                                 <td>${order.totalPrice}</td>
-                                <td>{order.isPaid ? <i class="fa fa-check" style={{color: 'green'}} aria-hidden="true"></i> : <i class="fa fa-times" aria-hidden="true"></i>}</td>
-                                <td>{order.isDelivered ? <i class="fa fa-check" style={{color: 'red'}} aria-hidden="true"></i> : <i class="fa fa-times" aria-hidden="true"></i>}</td>
+                                <td>{order.isPaid ? <i class="fa fa-check" style={{color: 'green'}} aria-hidden="true"></i> : <i class="fa fa-times" style={{color: 'red'}} aria-hidden="true"></i>}</td>
+                                <td>{order.isDelivered ? <i class="fa fa-check" style={{color: 'green'}} aria-hidden="true"></i> : <i class="fa fa-times" style={{color: 'red'}} aria-hidden="true"></i>}</td>
                                 <td>
                                     <LinkContainer to={`/order/${order._id}`} >
                                         <Button variant='light' className='btn-sm'>

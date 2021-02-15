@@ -28,19 +28,25 @@ const ProfileScreen = ({ location, history }) => {
   const orderListMy = useSelector(state => state.orderListMy)
   const { orders, loading: loadingOrders, error: errorOrders } = orderListMy
   
+  // const tempOrders = {...orders}
+
   useEffect(() => {
     if (!userInfo) {
       history.push('/login')
     } else {
-      if (! user || !user.name) {
+      if (!user || !user.name) {
         dispatch(getUserDetails('profile'))
-        dispatch(listMyOrders())
       } else {
         setName(user.name)
         setEmail(user.email)
       }
     }
   }, [dispatch, history, userInfo, user])
+
+  useEffect(() => {
+    dispatch(listMyOrders())
+    // eslint-disable-next-line
+  }, [])
 
   const submitHandler = (e) => {
     e.preventDefault()
